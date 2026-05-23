@@ -1,12 +1,14 @@
 {
   "name": "NuvioProvidersITA",
-  "settings":{
-    "key":"torbox_api_key",
-    "name":"TorBox API Key",
-    "type":"text",
-    "description":"TorBox direct links",
-    "required":true
-  },
+  "settings":[
+    {
+      "key":"torbox_api_key",
+      "name":"TorBox API Key",
+      "type":"text",
+      "description":"TorBox direct links",
+      "required":true
+    }
+  ],
   "version": "1.0.0",
   "scrapers": [
     {
