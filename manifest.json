@@ -1,34 +1,33 @@
 {
-    "id": "template-provider",
-    "name": "AlbyStreams",
-    "description": "Nuvio plugins mady by Alby.",
-    "version": "1.0.0",
-    "author": "albyalex96",
-    "supportedTypes": [
-      "movie",
-      "tv",
-      "anime"
-    ],
-    "settings": {
-      "apiKey": {
-        "key":"torbox_api_key",
-        "type": "string",
-        "label": "API Key",
-        "description":"Your API key for accessing the provider's services.",
-        "required": "true"
-      }
-    },
-    "filename": "providers/torbox.js",
-    "enabled": false,
-    "logo": "",
-    "contentLanguage": [
-      "it"
-    ],
-    "formats": [
-      "mp4",
-      "mkv"
-    ],
-    "limited": false,
-    "disabledPlatforms": [],
-    "supportsExternalPlayer": true
-  }
+  "name": "NuvioProvidersITA",
+  "settings":{
+    "key":"torbox_api_key",
+    "name":"TorBox API Key",
+    "type":"text",
+    "description":"TorBox direct links",
+    "required":true
+  },
+  "version": "1.0.0",
+  "scrapers": [
+    {
+      "id": "torbox",
+      "name": "TorBox",
+      "description": "TorBox direct links",
+      "version": "0.0.1",
+      "author": "albyalex96",
+      "supportedTypes": [
+        "movie",
+        "tv"
+      ],
+      "filename": "providers/torbox.js",
+      "enabled": true,
+      "formats": [
+        "mkv"
+      ],
+      "logo": "https://www.google.com/s2/favicons?domain=4khdhub.click&sz=128",
+      "contentLanguage": [
+        "en","it"
+      ]
+    }    
+  ]
+}
