@@ -1,19 +1,29 @@
 [
   {
     "id": "template-provider",
-    "name": "Template Provider",
-    "description": "A starter template for creating Nuvio providers.",
+    "name": "AlbyStreams",
+    "description": "Nuvio plugins mady by Alby.",
     "version": "1.0.0",
-    "author": "Your Name",
+    "author": "albyalex96",
     "supportedTypes": [
       "movie",
-      "tv"
+      "tv",
+      "anime"
     ],
-    "filename": "providers/template.js",
+    "settings": {
+      "apiKey": {
+        "key":"torbox_api_key",
+        "type": "string",
+        "label": "API Key",
+        "description":"Your API key for accessing the provider's services.",
+        "required": "true"
+      }
+    },
+    "filename": "providers/torbox.js",
     "enabled": false,
     "logo": "",
     "contentLanguage": [
-      "en"
+      "it"
     ],
     "formats": [
       "mp4",
