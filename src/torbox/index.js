@@ -1,58 +1,55 @@
 /**
- * TorBox Nuvio Provider
- * ─────────────────────
- * Searches TorBox's torrent index by TMDB ID, adds the best results to the
- * user's TorBox account, and returns streaming permalinks.
+ * TorBox Nuvio Provider — v2
+ * ──────────────────────────
+ * Finds streams by:
+ *   1. Resolving the TMDB ID to a real title (optional, needs TMDB key)
+ *   2. Searching public torrent indices (Knaben) for info hashes
+ *   3. Checking TorBox cache — only instantly-available torrents are shown first
+ *   4. Debriding and returning permanent streaming links
  *
- * Requirements:
- *   - A paid TorBox account and API key.
- *   - Set your API key via: globalThis.SCRAPER_SETTINGS.torbox_api_key
+ * Required setting:
+ *   globalThis.SCRAPER_SETTINGS.torbox_api_key  — your TorBox API key
  *
- * Build command (from repo root):
+ * Optional (but strongly recommended for better search results):
+ *   globalThis.SCRAPER_SETTINGS.tmdb_api_key    — TMDB v3 API key
+ *
+ * Build command (from nuvio-providers repo root):
  *   node build.js torbox
  */
 
 import { extractStreams } from './extractor.js';
 
-/**
- * Retrieve the TorBox API key from globalThis.SCRAPER_SETTINGS.
- * @returns {string|null}
- */
-function getApiKey() {
+function getSetting(key) {
   if (
     typeof globalThis !== 'undefined' &&
     globalThis.SCRAPER_SETTINGS &&
-    globalThis.SCRAPER_SETTINGS.torbox_api_key
+    globalThis.SCRAPER_SETTINGS[key]
   ) {
-    return globalThis.SCRAPER_SETTINGS.torbox_api_key;
+    return globalThis.SCRAPER_SETTINGS[key];
   }
   return null;
 }
 
 /**
- * Main Nuvio provider function.
- *
- * @param {string} tmdbId   - The TMDB ID (e.g. "550")
- * @param {string} mediaType - "movie" or "tv"
- * @param {number|null} season  - Season number (1-based), null for movies
- * @param {number|null} episode - Episode number (1-based), null for movies
- * @returns {Promise<Array>} - List of stream objects
+ * @param {string} tmdbId
+ * @param {string} mediaType  - "movie" | "tv"
+ * @param {number|null} season
+ * @param {number|null} episode
+ * @returns {Promise<Array>}
  */
 async function getStreams(tmdbId, mediaType, season, episode) {
-  const apiKey = getApiKey();
-
+  const apiKey = getSetting('torbox_api_key');
   if (!apiKey) {
-    console.log(
-      '[TorBox] No API key found. Set globalThis.SCRAPER_SETTINGS.torbox_api_key'
-    );
+    console.log('[TorBox] Missing torbox_api_key in SCRAPER_SETTINGS');
     return [];
   }
 
+  const tmdbApiKey = getSetting('tmdb_api_key'); // optional
+
   try {
-    const streams = await extractStreams(tmdbId, mediaType, season, episode, apiKey);
-    return streams;
+    return await extractStreams(tmdbId, mediaType, season, episode, apiKey, tmdbApiKey);
   } catch (err) {
-    console.log('[TorBox] Unexpected error in getStreams:', err.message);
+    console.log('[TorBox] Fatal error in getStreams:', err.message);
     return [];
   }
 }

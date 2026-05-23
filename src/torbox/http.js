@@ -1,51 +1,38 @@
 /**
- * http.js - Minimal fetch wrapper for Nuvio/Hermes compatibility.
- * No external dependencies, uses the global fetch available in React Native.
+ * http.js — Minimal fetch helpers for TorBox API + public torrent search.
+ * No external deps; compatible with React Native / Hermes.
  */
 
-const BASE_URL = 'https://api.torbox.app/v1/api';
+const TORBOX_BASE = 'https://api.torbox.app/v1/api';
 
 /**
- * Perform a GET request to the TorBox API.
- * @param {string} path - Endpoint path (e.g. '/torrents/search')
- * @param {Object} params - Query string parameters
- * @param {string} apiKey - TorBox API key
- * @returns {Promise<Object>} - Parsed JSON response
+ * Authenticated GET to TorBox API.
  */
-export async function apiGet(path, params, apiKey) {
-  const url = new URL(BASE_URL + path);
+export async function tbGet(path, params, apiKey) {
+  const url = new URL(TORBOX_BASE + path);
   if (params) {
     Object.keys(params).forEach((k) => {
       if (params[k] !== null && params[k] !== undefined) {
-        url.searchParams.set(k, String(params[k]));
+        url.searchParams.append(k, String(params[k]));
       }
     });
   }
-
-  const response = await fetch(url.toString(), {
+  const res = await fetch(url.toString(), {
     method: 'GET',
     headers: {
       Authorization: 'Bearer ' + apiKey,
       'Content-Type': 'application/json',
     },
   });
-
-  if (!response.ok) {
-    throw new Error('TorBox HTTP error: ' + response.status);
-  }
-
-  return response.json();
+  if (!res.ok) throw new Error('TorBox GET error: ' + res.status);
+  return res.json();
 }
 
 /**
- * Perform a POST request to the TorBox API (JSON body).
- * @param {string} path - Endpoint path
- * @param {Object} body - JSON body
- * @param {string} apiKey - TorBox API key
- * @returns {Promise<Object>} - Parsed JSON response
+ * Authenticated POST (JSON body) to TorBox API.
  */
-export async function apiPost(path, body, apiKey) {
-  const response = await fetch(BASE_URL + path, {
+export async function tbPost(path, body, apiKey) {
+  const res = await fetch(TORBOX_BASE + path, {
     method: 'POST',
     headers: {
       Authorization: 'Bearer ' + apiKey,
@@ -53,10 +40,26 @@ export async function apiPost(path, body, apiKey) {
     },
     body: JSON.stringify(body),
   });
+  if (!res.ok) throw new Error('TorBox POST error: ' + res.status);
+  return res.json();
+}
 
-  if (!response.ok) {
-    throw new Error('TorBox HTTP error: ' + response.status);
+/**
+ * Generic unauthenticated GET (for public search APIs).
+ */
+export async function publicGet(url, params) {
+  const u = new URL(url);
+  if (params) {
+    Object.keys(params).forEach((k) => {
+      if (params[k] !== null && params[k] !== undefined) {
+        u.searchParams.set(k, String(params[k]));
+      }
+    });
   }
-
-  return response.json();
+  const res = await fetch(u.toString(), {
+    method: 'GET',
+    headers: { 'User-Agent': 'Mozilla/5.0 (compatible; NuvioProvider/1.0)' },
+  });
+  if (!res.ok) throw new Error('Public GET error: ' + res.status + ' ' + url);
+  return res.json();
 }
