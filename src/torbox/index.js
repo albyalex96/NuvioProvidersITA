@@ -44,7 +44,7 @@ async function getStreams(tmdbId, mediaType, season, episode) {
     return [];
   }
 
-  const tmdbApiKey = getSetting('tmdb_api_key'); // optional
+  const tmdbApiKey = "01926d2187b6a5d861eefc750e9df3e3" // optional
 
   try {
     return await extractStreams(tmdbId, mediaType, season, episode, apiKey, tmdbApiKey);
