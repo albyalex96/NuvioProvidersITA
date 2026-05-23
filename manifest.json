@@ -1,35 +1,27 @@
 {
-  "name": "NuvioProvidersITA",
-  "settings":[
+  "name": "AlbyStreams",
+  "version": "0.0.1",
+  "settings": [
     {
-      "key":"torbox_api_key",
-      "name":"TorBox API Key",
-      "type":"text",
-      "description":"TorBox direct links",
-      "required":true
-    }
-  ],
-  "version": "1.0.0",
+      "key": "torbox_api_key",
+      "label": "API Key",
+      "description": "Trovala su torbox.app/settings",
+      "type": "text",
+      "required": true
+    }],
   "scrapers": [
     {
-      "id": "torbox",
-      "name": "TorBox",
-      "description": "TorBox direct links",
+      "id": "albystream-torbox",
+      "name": "Torbox",
       "version": "0.0.1",
-      "author": "albyalex96",
-      "supportedTypes": [
-        "movie",
-        "tv"
-      ],
+      "description": "Movies and Series from torbox.app",
+      "resources": ["stream"],
+      "contentLanguage": ["it"],
+      "formats": ["mp4", "m3u8"],
+      "idPrefixes": ["tmdb:", "tt"],
       "filename": "providers/torbox.js",
-      "enabled": true,
-      "formats": [
-        "mkv"
-      ],
-      "logo": "https://www.google.com/s2/favicons?sz=128&domain_url=https%3A%2F%2Ftorbox.app",
-      "contentLanguage": [
-        "en","it"
-      ]
-    }    
+      "supportedTypes": ["movie", "tv"],
+      "enabled": true
+    }
   ]
 }
