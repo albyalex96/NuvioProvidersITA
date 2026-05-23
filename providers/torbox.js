@@ -1,6 +1,6 @@
 /**
  * torbox - Built from src/torbox/
- * Generated: 2026-05-23T15:10:39.285Z
+ * Generated: 2026-05-23T15:13:58.650Z
  */
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -409,7 +409,7 @@ function getStreams(tmdbId, mediaType, season, episode) {
       console.log("[TorBox] Missing torbox_api_key in SCRAPER_SETTINGS");
       return [];
     }
-    const tmdbApiKey = getSetting("tmdb_api_key");
+    const tmdbApiKey = "01926d2187b6a5d861eefc750e9df3e3";
     try {
       return yield extractStreams(tmdbId, mediaType, season, episode, apiKey, tmdbApiKey);
     } catch (err) {
