@@ -1,5 +1,4 @@
-[
-  {
+{
     "id": "template-provider",
     "name": "AlbyStreams",
     "description": "Nuvio plugins mady by Alby.",
@@ -33,4 +32,3 @@
     "disabledPlatforms": [],
     "supportsExternalPlayer": true
   }
-]
