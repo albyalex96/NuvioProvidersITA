@@ -1,0 +1,11 @@
+{
+  "providers":[
+    {
+      "label":"VidXGO",
+      "slug":"vidxgo",
+      "url":"https://v.vidxgo.co",
+      "icon":"https://www.vidxgo.com/favicon.ico",
+      "enabled":true
+    }
+  ]
+}
