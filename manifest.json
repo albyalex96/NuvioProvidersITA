@@ -1,26 +1,19 @@
-[
-  {
-    "id": "template-provider",
-    "name": "Template Provider",
-    "description": "A starter template for creating Nuvio providers.",
-    "version": "1.0.0",
-    "author": "Your Name",
-    "supportedTypes": [
-      "movie",
-      "tv"
-    ],
-    "filename": "providers/template.js",
-    "enabled": false,
-    "logo": "",
-    "contentLanguage": [
-      "en"
-    ],
-    "formats": [
-      "mp4",
-      "mkv"
-    ],
-    "limited": false,
-    "disabledPlatforms": [],
-    "supportsExternalPlayer": true
-  }
-]
+{
+  "name": "AlbyStreams",
+  "version": "0.0.1",
+  "scrapers": [
+    {
+      "id": "albystreams-torrentio",
+      "name": "Torrentio",
+      "version": "0.0.1_alpha",
+      "description": "Movies and Series da Torrentio, filtrati per lingua italiana",
+      "resources": ["stream"],
+      "contentLanguage": ["it"],
+      "formats": ["mp4", "m3u8"],
+      "idPrefixes": ["tmdb:", "tt"],
+      "filename": "providers/torrentio.js",
+      "supportedTypes": ["movie", "tv", "series"],
+      "enabled": true
+    }
+  ]
+}

@@ -3,7 +3,7 @@
  * Main entry point.
  */
 
-import { extractStreams } from './extractor.js';
+import { extractStreams , getImdbId } from './extractor.js';
 
 /**
  * Main function called by Nuvio
@@ -14,16 +14,24 @@ import { extractStreams } from './extractor.js';
  */
 async function getStreams(tmdbId, mediaType, season, episode) {
     try {
-        console.log(`[Template] Request: ${mediaType} ${tmdbId}`);
+        console.log(`[TorrentIO] Request: ${mediaType} ${tmdbId}`);
 
-        // Call your extraction logic
+        const imdbId = await getImdbId(tmdbId, mediaType);
+
+        if (!imdbId) {
+        console.log("[TORRENTIO] IMDB ID not found");
+        return [];
+        }
+        
         const streams = await extractStreams(tmdbId, mediaType, season, episode);
 
         return streams;
     } catch (error) {
-        console.error(`[Template] Error: ${error.message}`);
+        console.error(`[TorrentIO] Error: ${error.message}`);
         return [];
     }
 }
+
+
 
 module.exports = { getStreams };
