@@ -3,7 +3,7 @@
 // Provider per stream via Torrentio + TMDB
 // ============================================================
 
-const TMDB_API_KEY = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlYzM3OTBlOWM2ZjQ0MmRlYTU1NTU3ZjE3OTQ4YjJjMiIsInN1YiI6IjY2NTBmMWJmYTIyYTA3MmNjZTE5MWIwOCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.YHkpxz4vc-5pCrODVF3dVCVbMpX_e6YvFvIR9WHDV1g";
+const TMDB_API_KEY = "68e094699525b18a70bab2f86b1fa706"
 const TORRENTIO_API = "https://torrentio.strem.fun/sort=qualitysize|qualityfilter=480p,scr,cam";
 
 const HEADERS = {
@@ -68,25 +68,26 @@ function buildMagnet(infoHash) {
 // @param {string} tmdbId   - ID TMDB del titolo
 // @param {string} mediaType - "movie" oppure "tv"
 // -----------------------------------------------------------
-function getImdbId(tmdbId, mediaType) {
+function getTmdbId(imdbId, type) {
   return __async(this, null, function* () {
+    const normalizedType = String(type).toLowerCase();
+    const findUrl = `https://api.themoviedb.org/3/find/${imdbId}?api_key=${TMDB_API_KEY}&external_source=imdb_id`;
     try {
-      const url =
-        "https://api.themoviedb.org/3/" + mediaType + "/" + tmdbId +
-        "/external_ids?api_key=" + TMDB_API_KEY + "&language=it-IT";
-
-      const data = yield (yield fetch(url, { skipSizeCheck: true })).json();
-
-      return (
-        data?.external_ids?.imdb_id ||
-        data?.imdb_id ||
-        null
-      );
+      const response = yield fetch(findUrl);
+      if (!response.ok) return null;
+      const data = yield response.json();
+      if (!data) return null;
+      if (normalizedType === "movie" && data.movie_results && data.movie_results.length > 0) {
+        return data.movie_results[0].id.toString();
+      } else if (normalizedType === "tv" && data.tv_results && data.tv_results.length > 0) {
+        return data.tv_results[0].id.toString();
+      }
+      return null;
     } catch (e) {
+      console.error("[StreamingCommunity] Conversion error:", e);
       return null;
     }
   });
-}
 
 // -----------------------------------------------------------
 // Chiama l'API di Torrentio e restituisce i flussi
