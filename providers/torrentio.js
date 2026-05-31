@@ -1,6 +1,6 @@
 /**
  * torrentio - Built from src/torrentio/
- * Generated: 2026-05-31T21:18:24.273Z
+ * Generated: 2026-05-31T21:31:18.383Z
  */
 var __create = Object.create;
 var __defProp = Object.defineProperty;
@@ -119,6 +119,10 @@ function streamFormat(stream) {
     url,
     infoHash,
     addonName: "TorrentIO Plugin",
+    isInstalledAddonStream: true,
+    // Should trigger local debrid resolution in Nuvio
+    needsLocalDebridResolve: true,
+    // Should trigger local debrid resolution in Nuvio
     behaviorHints
   };
 }

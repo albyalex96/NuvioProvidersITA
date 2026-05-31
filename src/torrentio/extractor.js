@@ -69,6 +69,8 @@ function streamFormat(stream){
     url,
     infoHash,
     addonName:"TorrentIO Plugin",
+    isInstalledAddonStream:true,  // Should trigger local debrid resolution in Nuvio
+    needsLocalDebridResolve:true, // Should trigger local debrid resolution in Nuvio
     behaviorHints
   }
 }
