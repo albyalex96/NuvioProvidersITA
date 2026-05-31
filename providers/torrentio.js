@@ -71,6 +71,7 @@ function buildMagnet(infoHash) {
 function getTmdbId(imdbId, type) {
   return __async(this, null, function* () {
     const normalizedType = String(type).toLowerCase();
+    console.warn("[TORRENTIO] Ricerca url in corso")
     const findUrl = `https://api.themoviedb.org/3/find/${imdbId}?api_key=${TMDB_API_KEY}&external_source=imdb_id`;
     try {
       const response = yield fetch(findUrl);
@@ -84,7 +85,7 @@ function getTmdbId(imdbId, type) {
       }
       return null;
     } catch (e) {
-      console.error("[StreamingCommunity] Conversion error:", e);
+      console.error("[TorrentIO] Conversion error:", e);
       return null;
     }
   });
